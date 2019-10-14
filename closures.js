@@ -2,7 +2,6 @@
   Once you complete a problem, refresh ./closures.html in your browser and check to see if the problem's test(s) are passing.
   Passed tests will be indicated by a green circle.
   Failed tests will be indicated by a red X.
-
   You can refresh the page at any time to re-run all the tests.
 */
 
@@ -22,14 +21,14 @@ function outer() {
   Invoke outer saving the return value into another variable called 'inner'.
 */
   
-// Code Here
 
+let inner = outer();
 
 
 //Once you do that, invoke inner.
 
-//Code Here
 
+inner("Maegan");
 
 
 ////////// PROBLEM 2 //////////
@@ -51,9 +50,9 @@ function callFriend(name) {
   (HINT: You will need to pass in arguments to both function invocations)
 */
 
-//Code Here
 
-
+let callSally = callFriend("Sally");
+callSally("972-741-4275");
 
 ////////// PROBLEM 3 //////////
 
@@ -62,15 +61,20 @@ function callFriend(name) {
 */
 
 //Code Here
-
+function makeCounter() {  
+  let count = 1;
+  return function() {
+    return count++;
+  };
+}
 
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -86,18 +90,30 @@ function callFriend(name) {
 */
 
 function counterFactory(value) {
-  // Code here.
+ 
+  
 
+  let total = value;
+  function inc() {
+    total++;
+    return total;
+  }
+  function dec() {
+    total--;
+    return total;
+  }
   return {
-
+    inc, 
+    dec
   };
 }
 
+
 counter = counterFactory(10);
-// counter.inc() // 11
-// counter.inc() // 12
-// counter.inc() // 13
-// counter.dec() // 12
+counter.inc() // 11
+counter.inc() // 12
+counter.inc() // 13
+counter.dec() // 12
 
 
 
@@ -112,10 +128,15 @@ counter = counterFactory(10);
 function motivation( firstname, lastname ) {
   var welcomeText = "You're doing awesome, keep it up";
 
-  // code message function here.
+  
+
+  function message() {
+    return welcomeText + " " + firstname + " " + lastname + ".";
+    
+  }
 
   //Uncommment this to return the value of your message function
-  //return message;
+  return message;
 }
 
 var greeting = motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
@@ -138,15 +159,20 @@ var module = (function() {
 
   function privateMethod(){
     return "Hi, I'm " + person.name + ", age " + person.age + " from " + person.location;
+    
   }
 
   // Anything that is being returned is made public and can be invoked from
   // outside our lexical scope
   return {
-    // Code here.
+    
+
+    publicMethod: function() {
+      return privateMethod();
+    }
   };
 })();
-
+module.publicMethod();
 
 
 ////////// PROBLEM 7 //////////
@@ -162,7 +188,14 @@ function secretNumber() {
   var secret = 143;
 
   return {
-    // Code here
+   
+
+    addToSecret: function(num) {
+      return secret += num
+    },
+    takeAwayFromSecret: function(num) {
+      return secret -= num
+    }
   };
 }
 
@@ -179,18 +212,21 @@ function secretNumber() {
     3 seconds after call - log 3
     4 seconds after call - log 4
     5 seconds after call - log 5
-
   However, because each call to console.log occurs after the loop has finished, the value of i has changed before the console.log executes.
   We'll need to use a closure to preserve a reference to i at the time of execution.
   
   Fix the code below to log the desired output.
 */
 
+
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000);
+    function runTimeout(currentValue) {
+      setTimeout(function() {
+        console.log(currentValue);
+      }, currentValue * 1000);
+    }
+    runTimeout(i);
   }
 }
 timeOutCounter();
